@@ -197,6 +197,10 @@ public class Game {
         printLocationInfo();
     }
 
+    private void inventory(){
+
+    }
+
     public static void main(String[] args) {
         Game jeu = new Game();
         jeu.play();

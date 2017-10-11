@@ -5,6 +5,7 @@ public enum CommandWord {
     QUIT("quit"),
     HELP("help"),
     LOOK("look"),
+    INVENTORY("inventory"),
     UNKNOWN("unknown");
 
     private String mot ="";
