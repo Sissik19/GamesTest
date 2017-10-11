@@ -1,4 +1,5 @@
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -15,8 +16,8 @@ import java.util.Map;
 public class Room {
 
     private String description;
-    private String object;
-    private Map<String, Room> hm ;
+    private Key key;
+    private ArrayList<Door> doors;
 
     /**
      * Create a room described "description". Initially, it has
@@ -24,12 +25,27 @@ public class Room {
      * "an open court yard".
      * @param description The room's description.
      */
-    public Room(String description,String object)    {
+    public Room(String description,Key key)    {
         this.description = description;
-        this.object = object;
-        hm = new HashMap<>();
+        this.key = key;
+        doors = new ArrayList<>();
     }
 
+    public Door getDoor(String direction){
+        Door toReturn = null;
+        int i = 0;
+        for(Door door : doors) {
+            if (door.getDirection().equals(direction)){
+                    toReturn = door;
+                    i = 1;
+            }
+            else if(i==0){
+                toReturn = null;
+            }
+        }
+        return toReturn;
+
+    }
     /**
      * Test if the direction choose is exist for the room where
      * the person is
@@ -37,11 +53,21 @@ public class Room {
      * @return
      */
     public Room getExist(String direction){
-        if(hm.containsKey(direction)){
-            return hm.get(direction);
+        Room toReturn = null;
+        int i = 0;
+        for(Door door : doors) {
+            if (door.getDirection().equals(direction)) {
+                    toReturn = door.getRoom();
+                    i = 1;
+            }
+            else if(i==0){
+                toReturn = null;
+            }
         }
-        else return null;
+        return toReturn;
+
     }
+
 
     /**
      * Create an exist for the room
@@ -49,7 +75,18 @@ public class Room {
      * @param neighbor : the neighbor when the person go in this direction
      */
     public void setExit(String direction, Room neighbor){
-        hm.put(direction,neighbor);
+        Door door = new Door(direction, neighbor, StateDoor.OPEN.toString(),null);
+        doors.add(door);
+    }
+
+    public void setExit(String direction, Room neighbor, String close, Key key){
+        Door door = new Door(direction, neighbor, close, key);
+        doors.add(door);
+    }
+
+    public void setExit(String direction, Room neighbor, String close, Key key1, Key key2){
+        Door door = new Door(direction, neighbor, close, key1, key2);
+        doors.add(door);
     }
 
     /**
@@ -58,14 +95,10 @@ public class Room {
      */
     public String getExitString(){
         String exits = Text.EXITS.toString();
-        Iterator iterator = hm.entrySet().iterator();
-        while(iterator.hasNext()){
-            Map.Entry pair = (Map.Entry)iterator.next();
-            exits += pair.getKey();
-            if(iterator.hasNext()){
-                exits+= ", ";
+        for(Door door : doors){
+            if(!door.getOpen().equals(StateDoor.HIDE.toString())) {
+                exits += door.getDirection() + " - " + door.getOpen() + "\n";
             }
-
         }
         return exits;
     }
@@ -74,19 +107,37 @@ public class Room {
      * @return The description of the room.
      */
     public String getLongDescription(){
-        String testObject = "nothing";
-        if(this.object != null){
-            testObject = this.object;
+        String testkey = "nothing";
+        if(key != null){
+            if(isNumeric(key.getCouleur())) {
+                testkey = "Code "+key.getCouleur();
+            }
+            else{
+                testkey = "Key "+key.getCouleur();
+            }
         }
         return Text.YOURARE.toString() + description + " \n" +
-                Text.LISTOBJECT.toString()+ testObject +"\n"+ this.getExitString();
+                Text.LISTOBJECT.toString()+ testkey +"\n"+ getExitString();
     }
 
-    public String getObject(){
-        return object;
+    public Key getKey(){
+        return key;
     }
 
-    public void setObject(){
-        object = null;
+    public void setKey(){
+        key = null;
+    }
+    public static boolean isNumeric(String str)
+    {
+        try
+        {
+            double d = Double.parseDouble(str);
+        }
+        catch(NumberFormatException nfe)
+        {
+            return false;
+        }
+        return true;
     }
 }
+

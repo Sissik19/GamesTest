@@ -1,18 +1,18 @@
 import java.util.ArrayList;
 
 public class Inventory {
-    ArrayList<String> bag;
+    ArrayList<Key> bag;
 
     Inventory(){
         bag = new ArrayList<>();
     }
 
-    public String getBag(String object) {
-        String find = null;
+    public Key getBag(Key Key) {
+        Key find = null;
         int i = 0;
-        for(String lookFor : bag )
-            if(lookFor.equals(object)){
-                find = object;
+        for(Key lookFor : bag )
+            if(lookFor.equals(Key)){
+                find = Key;
                 i=1;
             }
             else if(i==0){
@@ -24,8 +24,13 @@ public class Inventory {
     public String seeBag(){
         String see = "In your bag : ";
         if(!bag.isEmpty()){
-            for(String lookFor : bag ){
-                see += lookFor+" ";
+            for(Key lookFor : bag ){
+                if(isNumeric(lookFor.getCouleur())) {
+                    see += "code "+lookFor.getCouleur()+"\n";
+                }
+                else{
+                    see += "key "+lookFor.getCouleur()+"\n";
+                }
             }
         }
         else{
@@ -34,12 +39,34 @@ public class Inventory {
         return see;
     }
 
-    public void addObject(String object) {
-        bag.add(object);
+    public static boolean isNumeric(String str)
+    {
+        try
+        {
+            double d = Double.parseDouble(str);
+        }
+        catch(NumberFormatException nfe)
+        {
+            return false;
+        }
+        return true;
     }
 
-    public void removeObject(String object){
-        bag.remove(object);
+    public void addKey(Key key) {
+        bag.add(key);
+    }
+
+    public void removeKey(Key key){
+        bag.remove(key);
+    }
+
+    public boolean existKey(String key){
+        for(Key lookFor : bag ) {
+            if (lookFor.getCouleur().equals(key)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public int bagSize(){
