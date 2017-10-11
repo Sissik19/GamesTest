@@ -59,7 +59,7 @@ public class Room {
      * @return the exits
      */
     public String getExitString(){
-        String exits = "Exits : ";
+        String exits = Text.EXITS.toString();
         Iterator iterator = hm.entrySet().iterator();
         while(iterator.hasNext()){
             Map.Entry pair = (Map.Entry)iterator.next();
@@ -69,10 +69,6 @@ public class Room {
             }
 
         }
-        //En utilisant un for each voilà ce que l'on aurait :
-        /*for (Map.Entry<String, Room> entry : hm.entrySet()) {
-        exits = exits + entry.getKey() + " ";
-        }*/
         return exits;
     }
 
@@ -80,6 +76,6 @@ public class Room {
      * @return The description of the room.
      */
     public String getLongDescription(){
-        return "You are " + description + " \n" + this.getExitString();
+        return Text.YOURARE.toString() + description + " \n" + this.getExitString();
     }
 }

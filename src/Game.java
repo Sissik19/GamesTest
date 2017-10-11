@@ -16,6 +16,12 @@ public class Game {
 
     private Parser parser;
     private Room currentRoom;
+    private String north = Direction.NORTH.toString();
+    private String south = Direction.SOUTH.toString();
+    private String west = Direction.WEST.toString();
+    private String east = Direction.EAST.toString();
+    private String up = Direction.UP.toString();
+    private String down = Direction.DOWN.toString();
 
     /**
      * Create the game and initialise its internal map.
@@ -40,16 +46,16 @@ public class Game {
         balcony = new Room("on the theatre's balcony");
 
         // initialise room exits
-        outside.setExit("west", pub);
-        outside.setExit("south", lab);
-        outside.setExit("east", theatre);
-        theatre.setExit("west", outside);
-        theatre.setExit("up", balcony);
-        balcony.setExit("down", theatre);
-        pub.setExit("east", outside);
-        lab.setExit("north", outside);
-        lab.setExit("east", office);
-        office.setExit("west", lab);
+        outside.setExit(west, pub);
+        outside.setExit(south, lab);
+        outside.setExit(east, theatre);
+        theatre.setExit(west, outside);
+        theatre.setExit(up, balcony);
+        balcony.setExit(down, theatre);
+        pub.setExit(east, outside);
+        lab.setExit(north, outside);
+        lab.setExit(east, office);
+        office.setExit(west, lab);
 
         currentRoom = outside;  // start game outside
     }
@@ -68,7 +74,7 @@ public class Game {
             Command command = parser.getCommand();
             finished = processCommand(command);
         }
-        System.out.println("Thank you for playing.  Good bye.");
+        System.out.println(Text.GOODBYE.toString());
     }
 
     /**
@@ -76,10 +82,7 @@ public class Game {
      */
     private void printWelcome() {
         System.out.println();
-        System.out.println("Welcome to the World of Adventure!");
-        System.out.println("World of Adventure is a new, incredibly boring adventure game.");
-        System.out.println("Type '"+CommandWord.HELP.toString()+"' if you need help.");
-        System.out.println();
+        System.out.println(Text.WELCOME.toString());
         printLocationInfo();
     }
 
@@ -94,7 +97,7 @@ public class Game {
         String sWord = command.getCommandWord();
         CommandWord commandWords = new CommandWords().getCommandWords(sWord);
         if(CommandWord.UNKNOWN.equals(commandWords)) {
-            System.out.println("I don't know what you mean...");
+            System.out.println(Text.IDK.toString());
             return false;
         }
         else if (CommandWord.HELP.equals(commandWords))
@@ -118,10 +121,7 @@ public class Game {
      */
     private void printHelp() {
         CommandWords commandWords = new CommandWords();
-        System.out.println("You are lost. You are alone. You wander");
-        System.out.println("around at the university.");
-        System.out.println();
-        System.out.println("Your command words are:");
+        System.out.println(Text.HELP.toString());
         System.out.println(commandWords.allCommand());
     }
 
@@ -132,7 +132,7 @@ public class Game {
     private void goRoom(Command command)  {
         if(!command.hasSecondWord()) {
             // if there is no second word, we don't know where to go...
-            System.out.println("Go where?");
+            System.out.println(Text.GOWHERE.toString());
             return;
         }
 
@@ -140,27 +140,27 @@ public class Game {
 
         // Try to leave current room.
         Room nextRoom = null;
-        if(direction.equals("north")) {
-            nextRoom = currentRoom.getExist("north");
+        if(direction.equals(north)) {
+            nextRoom = currentRoom.getExist(north);
         }
-        if(direction.equals("east")) {
-            nextRoom = currentRoom.getExist("east");
+        if(direction.equals(east)) {
+            nextRoom = currentRoom.getExist(east);
         }
-        if(direction.equals("south")) {
-            nextRoom = currentRoom.getExist("south");
+        if(direction.equals(south)) {
+            nextRoom = currentRoom.getExist(south);
         }
-        if(direction.equals("west")) {
-            nextRoom = currentRoom.getExist("west");
+        if(direction.equals(west)) {
+            nextRoom = currentRoom.getExist(west);
         }
-        if(direction.equals("up")) {
-            nextRoom = currentRoom.getExist("up");
+        if(direction.equals(up)) {
+            nextRoom = currentRoom.getExist(up);
         }
-        if(direction.equals("down")) {
-            nextRoom = currentRoom.getExist("down");
+        if(direction.equals(down)) {
+            nextRoom = currentRoom.getExist(down);
         }
 
         if (nextRoom == null) {
-            System.out.println("There is no door!");
+            System.out.println(Text.NODOOR.toString());
         }
         else {
             currentRoom = nextRoom;
@@ -182,7 +182,7 @@ public class Game {
      */
     private boolean quit(Command command)   {
         if(command.hasSecondWord()) {
-            System.out.println("Quit what?");
+            System.out.println(Text.QUITWHAT.toString());
             return false;
         }
         else {

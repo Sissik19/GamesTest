@@ -52,8 +52,9 @@ public class CommandWords {
      */
     public String allCommand(){
         String listCommand = new String();
+        listCommand+=Text.YOURCOMMAND.toString();
         for (CommandWord word : CommandWord.values()) {
-            if(word.equals(CommandWord.UNKNOWN)) {
+            if(!word.equals(CommandWord.UNKNOWN)) {
                 listCommand += word.toString() + " ";
             }
         }
