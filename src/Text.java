@@ -11,7 +11,8 @@ public enum Text {
     QUITWHAT("Quit what?"),
     YOURCOMMAND("Your command are : \n"),
     YOURARE("You are "),
-    EXITS("Exits : ");
+    EXITS("Exits : "),
+    LISTOBJECT("In this room, there is : ");
 
     private String mot ="";
 

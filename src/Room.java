@@ -14,11 +14,8 @@ import java.util.Map;
  */
 public class Room {
 
-    public String description;
-    /*public Room northExit;
-    public Room southExit;
-    public Room eastExit;
-    public Room westExit;*/
+    private String description;
+    private String object;
     private Map<String, Room> hm ;
 
     /**
@@ -27,8 +24,9 @@ public class Room {
      * "an open court yard".
      * @param description The room's description.
      */
-    public Room(String description)    {
+    public Room(String description,String object)    {
         this.description = description;
+        this.object = object;
         hm = new HashMap<>();
     }
 
@@ -76,6 +74,19 @@ public class Room {
      * @return The description of the room.
      */
     public String getLongDescription(){
-        return Text.YOURARE.toString() + description + " \n" + this.getExitString();
+        String testObject = "nothing";
+        if(this.object != null){
+            testObject = this.object;
+        }
+        return Text.YOURARE.toString() + description + " \n" +
+                Text.LISTOBJECT.toString()+ testObject +"\n"+ this.getExitString();
+    }
+
+    public String getObject(){
+        return object;
+    }
+
+    public void setObject(){
+        object = null;
     }
 }

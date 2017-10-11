@@ -6,7 +6,8 @@ public enum CommandWord {
     HELP("help"),
     LOOK("look"),
     INVENTORY("inventory"),
-    UNKNOWN("unknown");
+    UNKNOWN("unknown"),
+    TAKE("take");
 
     private String mot ="";
 

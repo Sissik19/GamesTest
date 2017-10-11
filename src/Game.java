@@ -16,6 +16,7 @@ public class Game {
 
     private Parser parser;
     private Room currentRoom;
+    private Inventory inventory;
     private String north = Direction.NORTH.toString();
     private String south = Direction.SOUTH.toString();
     private String west = Direction.WEST.toString();
@@ -28,34 +29,57 @@ public class Game {
      */
     public Game()  {
         createRooms();
+        createInventory();
         parser = new Parser();
     }
 
+    private void createInventory(){
+        inventory = new Inventory();
+    }
     /**
      * Create all the rooms and link their exits together.
      */
     private void createRooms() {
-        Room outside, theatre, pub, lab, office, balcony;
+        Room outside, hall, theater, backTheater, downCorridor, musicClass, pub, computingLab, reserve,
+                balcony, classOne, classTwo, suspendedGarden, upCorridor, secretariat, directory, upHall,
+                attic, secretRoom;
 
         // create the rooms
-        outside = new Room("outside the main entrance of the university");
-        theatre = new Room("in a lecture theatre");
-        pub = new Room("in the campus pub");
-        lab = new Room("in a computing lab");
-        office = new Room("in the computing admin office");
-        balcony = new Room("on the theatre's balcony");
+        outside = new Room("outside the main entrance of the university.", null);
+        hall = new Room("in the hall",null);
+        theater = new Room("in a lecture theater", null);
+        backTheater = new Room("in back of the theater", null);
+        pub = new Room("in the campus pub", "orange key");
+        musicClass = new Room("in the music class", "code - 1234");
+        downCorridor = new Room("in a corridor at the first floor", null);
+        computingLab = new Room("in a computing lab", null);
+        reserve = new Room("in the reserve", "A GERER - red key close - pink key close");
+
+        upHall = new Room("in the hall on the second floor", null);
+        balcony = new Room("on the theater's balcony", "blue key");
+        suspendedGarden = new Room("in the suspended garden", null);
+        classOne = new Room("in the class one", "code - 5678");
+        classTwo = new Room("in the class two", "grey key");
+        upCorridor = new Room("in the corridor on the second floor", null);
+        secretariat = new Room("in the secretariat","code - 9876");
+        directory = new Room("in the directory", "violet key");
+
+        attic = new Room("in the attic", null);
+        secretRoom = new Room("in the secret room of the university", "A GERER - yellow key, close pink key");
+
+
 
         // initialise room exits
         outside.setExit(west, pub);
-        outside.setExit(south, lab);
-        outside.setExit(east, theatre);
-        theatre.setExit(west, outside);
-        theatre.setExit(up, balcony);
-        balcony.setExit(down, theatre);
+        outside.setExit(south, computingLab);
+        outside.setExit(east, theater);
+        theater.setExit(west, outside);
+        theater.setExit(up, balcony);
+        balcony.setExit(down, theater);
         pub.setExit(east, outside);
-        lab.setExit(north, outside);
-        lab.setExit(east, office);
-        office.setExit(west, lab);
+        computingLab.setExit(north, outside);
+        computingLab.setExit(east, reserve);
+        reserve.setExit(west, computingLab);
 
         currentRoom = outside;  // start game outside
     }
@@ -108,6 +132,10 @@ public class Game {
             wantToQuit = quit(command);
         else if(CommandWord.LOOK.equals(commandWords))
             look();
+        else if(CommandWord.INVENTORY.equals(commandWords))
+            inventory();
+        else if(CommandWord.TAKE.equals(commandWords))
+            take();
 
         return wantToQuit;
     }
@@ -198,8 +226,18 @@ public class Game {
     }
 
     private void inventory(){
-
+        System.out.println(inventory.seeBag());
     }
+
+    private void take(){
+        if(currentRoom.getObject()!=null){
+            inventory.addObject(currentRoom.getObject());
+        }
+        System.out.println("You take : "+currentRoom.getObject());
+        currentRoom.setObject();
+    }
+
+
 
     public static void main(String[] args) {
         Game jeu = new Game();

@@ -21,6 +21,19 @@ public class Inventory {
         return find;
     }
 
+    public String seeBag(){
+        String see = "In your bag : ";
+        if(!bag.isEmpty()){
+            for(String lookFor : bag ){
+                see += lookFor+" ";
+            }
+        }
+        else{
+            see += "nothing";
+        }
+        return see;
+    }
+
     public void addObject(String object) {
         bag.add(object);
     }
