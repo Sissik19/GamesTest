@@ -25,7 +25,8 @@ public enum Text {
     NOTHING(Game.messages.getString("nothing")),
     CODE(Game.messages.getString("codeT")),
     KEY(Game.messages.getString("keyT")),
-    YOUTAKE(Game.messages.getString("youtake"));
+    YOUTAKE(Game.messages.getString("youtake")),
+    INYOURBAG(Game.messages.getString("inyourbag"));
 
 
     private String mot ="";

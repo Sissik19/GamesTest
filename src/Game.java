@@ -32,7 +32,9 @@ public class Game {
     private String hide = StateDoor.HIDE.toString();
     private String code = StateDoor.CODE.toString();
     private Key orange, pink, red, blue, grey, black, yellow,code1,code2,white, violet;
-    private Room outside;
+    public Room hall, theater, backTheater, downCorridor, musicClass, pub, computingLab, reserve,
+            balcony, classOne, classTwo, suspendedGarden, upCorridor, secretariat, directory, upHall,
+            attic, atticCorridor, secretRoom1, secretRoom2, outside;
     private static String language;
     private static String country;
     private static Locale currentLocale;
@@ -69,9 +71,7 @@ public class Game {
      * Create all the rooms and link their exits together.
      */
     private void createRooms() {
-        Room hall, theater, backTheater, downCorridor, musicClass, pub, computingLab, reserve,
-                balcony, classOne, classTwo, suspendedGarden, upCorridor, secretariat, directory, upHall,
-                attic, atticCorridor, secretRoom1, secretRoom2;
+
 
         // create the rooms
         outside = new Room(DescriptionRoom.OUTSIDE.toString(), null);
@@ -353,7 +353,6 @@ public class Game {
                 Command command2 = parser2.getCommand();
                 String s = command2.getCommandWord();
                 if (Command.isNumeric(s)){
-                    System.out.println(door.getKey1().getCouleur());
                         if (command2.getCommandWord().equals(door.getKey1().getCouleur())){
                             door.setOpen(StateDoor.OPEN.toString());
                             System.out.println(Text.UNLOCKDOOR.toString()+direction);

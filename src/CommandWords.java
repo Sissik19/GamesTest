@@ -42,7 +42,7 @@ public class CommandWords {
                 return true;
             }
         }
-        if(Command.isNumeric(aString)){
+        if(aString != null && Command.isNumeric(aString)){
             return true;
         }
         // if we get here, the string was not found in the commands

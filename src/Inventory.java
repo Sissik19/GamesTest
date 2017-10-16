@@ -22,7 +22,7 @@ public class Inventory {
     }
 
     public String seeBag(){
-        String see = "In your bag : \n";
+        String see = Text.INYOURBAG.toString()+"\n";
         if(!bag.isEmpty()){
             for(Key lookFor : bag ){
                 if(Command.isNumeric(lookFor.getCouleur())) {

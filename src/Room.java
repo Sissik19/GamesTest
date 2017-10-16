@@ -66,6 +66,21 @@ public class Room {
 
     }
 
+    public boolean exist(String direction){
+        Boolean valeur = false;
+        int i = 0;
+        for(Door door : doors) {
+            if (door.getDirection().equals(direction)) {
+                valeur = true;
+                i = 1;
+            }
+            else if(i==0){
+                valeur = false;
+            }
+        }
+        return valeur;
+    }
+
 
     /**
      * Create an exist for the room
