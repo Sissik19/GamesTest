@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class Game {
 
     /**
@@ -29,7 +31,12 @@ public class Game {
     private String dclose = StateDoor.DCLOSE.toString();
     private String hide = StateDoor.HIDE.toString();
     private String code = StateDoor.CODE.toString();
-    private Key orange, pink, red, blue, grey, black, yellow, code1234,code5678,white, code5432, violet;
+    private Key orange, pink, red, blue, grey, black, yellow,code1,code2,white, violet;
+    private Room outside;
+    private static String language;
+    private static String country;
+    private static Locale currentLocale;
+    public static ResourceBundle messages;
     /**
      * Create the game and initialise its internal map.
      */
@@ -42,18 +49,17 @@ public class Game {
     }
 
     private void createKey(){
-        orange = new Key("orange");
-        pink = new Key("pink");
-        red = new Key("red");
-        blue = new Key("blue");
-        grey = new Key("grey");
-        black = new Key("black");
-        yellow = new Key("yellow");
-        code1234 = new Key("1234");
-        code5678 = new Key("5678");
-        white = new Key("white");
-        code5432 = new Key("5432");
-        violet = new Key("violet");
+        orange = new Key(KeyCode.ORANGE.toString());
+        pink = new Key(KeyCode.PINK.toString());
+        red = new Key(KeyCode.RED.toString());
+        blue = new Key(KeyCode.BLUE.toString());
+        grey = new Key(KeyCode.GREY.toString());
+        black = new Key(KeyCode.BLACK.toString());
+        yellow = new Key(KeyCode.YELLOW.toString());
+        code1 = new Key(KeyCode.CODE1.toString());
+        code2 = new Key(KeyCode.CODE2.toString());
+        white = new Key(KeyCode.WHITE.toString());
+        violet = new Key(KeyCode.VIOLET.toString());
 
     }
     private void createInventory(){
@@ -63,34 +69,34 @@ public class Game {
      * Create all the rooms and link their exits together.
      */
     private void createRooms() {
-        Room outside, hall, theater, backTheater, downCorridor, musicClass, pub, computingLab, reserve,
+        Room hall, theater, backTheater, downCorridor, musicClass, pub, computingLab, reserve,
                 balcony, classOne, classTwo, suspendedGarden, upCorridor, secretariat, directory, upHall,
                 attic, atticCorridor, secretRoom1, secretRoom2;
 
         // create the rooms
-        outside = new Room("outside the main entrance of the university.", null);
-        hall = new Room("in the hall",null);
-        theater = new Room("in a lecture theater", null);
-        backTheater = new Room("in back of the theater", black);
-        pub = new Room("in the campus pub", orange);
-        musicClass = new Room("in the music class", code1234);
-        downCorridor = new Room("in a corridor at the first floor", null);
-        computingLab = new Room("in a computing lab", null);
-        reserve = new Room("in the reserve", red);
+        outside = new Room(DescriptionRoom.OUTSIDE.toString(), null);
+        hall = new Room(DescriptionRoom.HALL.toString(),null);
+        theater = new Room(DescriptionRoom.THEATER.toString(), null);
+        backTheater = new Room(DescriptionRoom.BACKTHEATER.toString(), black);
+        pub = new Room(DescriptionRoom.PUB.toString(), orange);
+        musicClass = new Room(DescriptionRoom.MUSICCLASS.toString(), code1);
+        downCorridor = new Room(DescriptionRoom.DOWNCORRIDOR.toString(), null);
+        computingLab = new Room(DescriptionRoom.COMPUTINGLAB.toString(), null);
+        reserve = new Room(DescriptionRoom.RESERVE.toString(), red);
 
-        upHall = new Room("in the hall on the second floor", null);
-        balcony = new Room("on the theater's balcony", blue);
-        suspendedGarden = new Room("in the suspended garden", null);
-        classOne = new Room("in the class one", code5678);
-        classTwo = new Room("in the class two", grey);
-        upCorridor = new Room("in the corridor on the second floor", null);
-        secretariat = new Room("in the secretariat",white);
-        directory = new Room("in the directory", violet);
+        upHall = new Room(DescriptionRoom.UPHALL.toString(), null);
+        balcony = new Room(DescriptionRoom.BALCONY.toString(), blue);
+        suspendedGarden = new Room(DescriptionRoom.SUSPENDEDGARDEN.toString(), null);
+        classOne = new Room(DescriptionRoom.CLASSONE.toString(), code2);
+        classTwo = new Room(DescriptionRoom.CLASSTWO.toString(), grey);
+        upCorridor = new Room(DescriptionRoom.UPCORRIDOR.toString(), null);
+        secretariat = new Room(DescriptionRoom.SECRETARIAT.toString(),white);
+        directory = new Room(DescriptionRoom.DIRECTORY.toString(), violet);
 
-        attic = new Room("in the attic", null);
-        secretRoom1 = new Room("in a secret room of the university", yellow);
-        secretRoom2 = new Room("in a secret room of the university", pink);
-        atticCorridor = new Room("in one corridor", null);
+        attic = new Room(DescriptionRoom.ATTIC.toString(), null);
+        secretRoom1 = new Room(DescriptionRoom.SECRETROOM1.toString(), yellow);
+        secretRoom2 = new Room(DescriptionRoom.SECRETROOM2.toString(), pink);
+        atticCorridor = new Room(DescriptionRoom.ATTICCORRIDOR.toString(), null);
 
 
         // initialise room exits
@@ -102,7 +108,7 @@ public class Game {
 
         theater.setExit(west, hall);
         theater.setExit(up, balcony);
-        theater.setExit(east, backTheater, code,code5678);
+        theater.setExit(east, backTheater, code,code2);
 
         backTheater.setExit(west, theater);
 
@@ -111,7 +117,7 @@ public class Game {
         downCorridor.setExit(east, computingLab);
 
         computingLab.setExit(west, downCorridor);
-        computingLab.setExit(east, reserve, code, code1234);
+        computingLab.setExit(east, reserve, code, code1);
 
         musicClass.setExit(east, downCorridor);
 
@@ -161,7 +167,7 @@ public class Game {
     /**
      *  Main play routine.  Loops until end of play.
      */
-    public void play()  {
+    private void play()  {
         printWelcome();
 
         // Enter the main command loop.  Here we repeatedly read commands and
@@ -171,6 +177,9 @@ public class Game {
         while (! finished) {
             Command command = parser.getCommand();
             finished = processCommand(command);
+            if (currentRoom.equals(outside)){
+                finished = processCommand(new Command(CommandWord.QUIT.toString(), null));
+            }
         }
         System.out.println(Text.GOODBYE.toString());
     }
@@ -261,19 +270,18 @@ public class Game {
         }
 
         if (lockRoom == null) {
-            System.out.println(Text.ROOMOPEN.toString());
+            System.out.println(Text.NODOOR.toString());
         }
         else {
             Door door = currentRoom.getDoor(direction);
             if(door.getOpen().equals(StateDoor.CLOSE.toString()) || door.getOpen().equals(StateDoor.HIDE.toString())){
                 if(inventory.existKey(door.getKey1().getCouleur())) {
                     door.setOpen(open);
+                    System.out.println(Text.UNLOCKDOOR.toString()+direction);
                     inventory.removeKey(door.getKey1());
-                    printLocationInfo();
                 }
                 else{
                     System.out.println(Text.NOKEY.toString());
-                    printLocationInfo();
                 }
 
             }
@@ -282,23 +290,28 @@ public class Game {
                     door.setOpen(open);
                     inventory.removeKey(door.getKey1());
                     inventory.removeKey(door.getKey2());
-                    printLocationInfo();
+                    System.out.println(Text.UNLOCKDOOR.toString()+direction);
                 }
                 else if(inventory.existKey(door.getKey1().getCouleur())){
-                    System.out.println(Text.NOKEY1.toString());
-                    printLocationInfo();
+                    currentRoom.removeExit(direction);
+                    currentRoom.setExit(direction,lockRoom,close, door.getKey2());
+                    inventory.removeKey(door.getKey1());
+                    System.out.println(Text.UNLOCK1.toString());
+                    System.out.println(Text.NOKEY2.toString());
                 }
                 else if(inventory.existKey(door.getKey2().getCouleur())){
-                    System.out.println(Text.NOKEY2.toString());
-                    printLocationInfo();
+                    currentRoom.removeExit(direction);
+                    currentRoom.setExit(direction,lockRoom, close,door.getKey1());
+                    inventory.removeKey(door.getKey2());
+                    System.out.println(Text.UNLOCK2.toString());
+                    System.out.println(Text.NOKEY1.toString());
                 }
                 else{
-                    System.out.println(Text.NOKEY.toString());
-                    printLocationInfo();
+                    System.out.println(Text.NOKEYS.toString());
                 }
             }
             else{
-                System.out.println(Text.NODOOR.toString());
+                System.out.println(Text.ROOMOPEN.toString());
             }
         }
     }
@@ -332,20 +345,18 @@ public class Game {
         }
 
         if (lockRoom == null) {
-            System.out.println(Text.ROOMOPEN.toString());
+            System.out.println(Text.NODOOR.toString());
         } else {
             Door door = currentRoom.getDoor(direction);
             if (door.getOpen().equals(StateDoor.CODE.toString())) {
-                System.out.println("Enter code + number");
+                System.out.println(Text.CODENUMBER.toString());
                 Command command2 = parser2.getCommand();
-                String sWord = command2.getCommandWord();
-                CommandWord commandWords = new CommandWords().getCommandWords(sWord);
-                if (CommandWord.CODE.equals(commandWords)) {
-                    if (isNumeric(command2.getSecondWord())) {
-                        if (command2.getSecondWord().equals(door.getKey1().getCouleur())){
+                String s = command2.getCommandWord();
+                if (Command.isNumeric(s)){
+                    System.out.println(door.getKey1().getCouleur());
+                        if (command2.getCommandWord().equals(door.getKey1().getCouleur())){
                             door.setOpen(StateDoor.OPEN.toString());
-                            inventory.removeKey(door.getKey1());
-                            printLocationInfo();
+                            System.out.println(Text.UNLOCKDOOR.toString()+direction);
                         }
                         else{
                             System.out.println(Text.ERRROR.toString());
@@ -357,20 +368,8 @@ public class Game {
                 }
             }
         }
-    }
+    //}
 
-    public static boolean isNumeric(String str)
-    {
-        try
-        {
-            double d = Double.parseDouble(str);
-        }
-        catch(NumberFormatException nfe)
-        {
-            return false;
-        }
-        return true;
-    }
 
     /**
      * Try to go to one direction. If there is an exit, enter
@@ -456,16 +455,42 @@ public class Game {
 
     private void take(){
         if(currentRoom.getKey()!=null){
-            inventory.addKey(currentRoom.getKey());
+            inventory.addKey(currentRoom.getKey());System.out.println(Text.YOUTAKE.toString()+currentRoom.getKey().getKeyName());
+            currentRoom.setKey();
         }
-        System.out.println("You take : "+currentRoom.getKey().getKeyName());
-        currentRoom.setKey();
-        printLocationInfo();
+        else{
+            System.out.println(Text.NOTHINGTAKE.toString());
+        }
+
+    }
+
+    private static void setLanguage(){
+        int i = 1;
+        Scanner sc = new Scanner(System.in);
+        while (i == 1) {
+            System.out.println("Choose language : fr or en \nChoississez une langue : fr ou en");
+            System.out.print(">");
+            String str = sc.nextLine();
+            if (str.equals("fr")) {
+                language = new String("fr");
+                country = new String("FR");
+                i = 0;
+            } else if (str.equals("en")) {
+                language = new String("en");
+                country = new String("US");
+                i=0;
+            } else {
+                System.out.println("Language don't exist / Cette langue n'existe pas");
+            }
+        }
+        currentLocale = new Locale(language,country);
+        messages = ResourceBundle.getBundle("MessageBundle", currentLocale);
     }
 
 
 
     public static void main(String[] args) {
+        setLanguage();
         Game jeu = new Game();
         jeu.play();
     }

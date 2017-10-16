@@ -1,10 +1,10 @@
 public enum Direction {
-    WEST("west"),
-    EAST("east"),
-    SOUTH("south"),
-    NORTH("north"),
-    UP("up"),
-    DOWN("down");
+    WEST(Game.messages.getString("west")),
+    EAST(Game.messages.getString("east")),
+    SOUTH(Game.messages.getString("south")),
+    NORTH(Game.messages.getString("north")),
+    UP(Game.messages.getString("up")),
+    DOWN(Game.messages.getString("down"));
 
     private String mot ="";
 

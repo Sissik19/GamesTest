@@ -22,35 +22,23 @@ public class Inventory {
     }
 
     public String seeBag(){
-        String see = "In your bag : ";
+        String see = "In your bag : \n";
         if(!bag.isEmpty()){
             for(Key lookFor : bag ){
-                if(isNumeric(lookFor.getCouleur())) {
-                    see += "code "+lookFor.getCouleur()+"\n";
+                if(Command.isNumeric(lookFor.getCouleur())) {
+                    see += Text.CODE.toString()+lookFor.getCouleur()+"\n";
                 }
                 else{
-                    see += "key "+lookFor.getCouleur()+"\n";
+                    see += Text.KEY.toString()+lookFor.getCouleur()+"\n";
                 }
             }
         }
         else{
-            see += "nothing";
+            see += Text.NOTHING.toString();
         }
         return see;
     }
 
-    public static boolean isNumeric(String str)
-    {
-        try
-        {
-            double d = Double.parseDouble(str);
-        }
-        catch(NumberFormatException nfe)
-        {
-            return false;
-        }
-        return true;
-    }
 
     public void addKey(Key key) {
         bag.add(key);

@@ -10,7 +10,7 @@ public class Key {
     }
 
     public String getKeyName(){
-        if(isNumeric(couleur)){
+        if(Command.isNumeric(couleur)){
             return "code "+couleur;
         }
         else{
@@ -18,16 +18,4 @@ public class Key {
         }
     }
 
-    public static boolean isNumeric(String str)
-    {
-        try
-        {
-            double d = Double.parseDouble(str);
-        }
-        catch(NumberFormatException nfe)
-        {
-            return false;
-        }
-        return true;
-    }
 }

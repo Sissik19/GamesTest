@@ -45,4 +45,12 @@ public class Door {
     public Key getKey2() {
         return key2;
     }
+
+    public void setKey1(Key key1) {
+        this.key1 = key1;
+    }
+
+    public void setKey2(Key key2) {
+        this.key2 = key2;
+    }
 }

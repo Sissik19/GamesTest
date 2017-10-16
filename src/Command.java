@@ -57,8 +57,23 @@ public class Command {
     /**
      * @return true if the command has a second word.
      */
-    public boolean hasSecondWord()   {
+    public boolean hasSecondWord() {
         return (secondWord != null);
     }
+    public static boolean isNumeric(String str)
+    {
+        try
+        {
+            double d = Double.parseDouble(str);
+        }
+        catch(NumberFormatException nfe)
+        {
+            return false;
+        }
+        return true;
+    }
+
+
+
 }
 

@@ -42,6 +42,9 @@ public class CommandWords {
                 return true;
             }
         }
+        if(Command.isNumeric(aString)){
+            return true;
+        }
         // if we get here, the string was not found in the commands
         return false;
     }
@@ -51,7 +54,7 @@ public class CommandWords {
      * @return the String with all commands
      */
     public String allCommand(){
-        String listCommand = new String();
+        String listCommand = "";
         listCommand+=Text.YOURCOMMAND.toString();
         for (CommandWord word : CommandWord.values()) {
             if(!word.equals(CommandWord.UNKNOWN)) {
@@ -60,4 +63,6 @@ public class CommandWords {
         }
         return listCommand;
     }
+
+
 }

@@ -1,8 +1,6 @@
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+
 
 /**
  * Class Room - a room in an adventure game.
@@ -89,6 +87,14 @@ public class Room {
         doors.add(door);
     }
 
+    public void removeExit(String direction){
+        for(Door door : doors){
+            if(door.getDirection().equals(direction)){
+                doors.remove(door);
+            }
+        }
+    }
+
     /**
      * Write all exists for the current room
      * @return the exits
@@ -107,16 +113,16 @@ public class Room {
      * @return The description of the room.
      */
     public String getLongDescription(){
-        String testkey = "nothing";
+        String testkey = Text.NOTHING.toString();
         if(key != null){
-            if(isNumeric(key.getCouleur())) {
-                testkey = "Code "+key.getCouleur();
+            if(Command.isNumeric(key.getCouleur())) {
+                testkey = Text.CODE.toString()+key.getCouleur();
             }
             else{
-                testkey = "Key "+key.getCouleur();
+                testkey = Text.KEY.toString()+key.getCouleur();
             }
         }
-        return Text.YOURARE.toString() + description + " \n" +
+        return Text.YOUARE.toString() + description + " \n" +
                 Text.LISTOBJECT.toString()+ testkey +"\n"+ getExitString();
     }
 
@@ -127,17 +133,6 @@ public class Room {
     public void setKey(){
         key = null;
     }
-    public static boolean isNumeric(String str)
-    {
-        try
-        {
-            double d = Double.parseDouble(str);
-        }
-        catch(NumberFormatException nfe)
-        {
-            return false;
-        }
-        return true;
-    }
+
 }
 

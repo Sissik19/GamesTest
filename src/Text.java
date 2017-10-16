@@ -1,28 +1,32 @@
 public enum Text {
-    GOWHERE("Go where?"),
-    UNLOCKWHAT("What do you waant unlock ?"),
-    GOODBYE("Thank you for playing.  Good bye."),
-    WELCOME("Welcome to the World of Adventure!\n"+
-            "World of Adventure is a new, incredibly boring adventure game.\n"+
-            "Your goal is to go out of the university. \n"+
-            "Of course it's difficult. You have to find\n"+
-            "keys or code to unlock door. The outside is \n"+
-            "at the north of the hall. Good Luck! \n"+
-            "Type "+CommandWord.HELP.toString()+" if you need help.\n"),
-    IDK("I don't know what you mean..."),
-    HELP("You are lost. You are alone. You wander\n"+
-        "around at the university.\n "),
-    NODOOR("You can't do that !"),
-    QUITWHAT("Quit what?"),
-    YOURCOMMAND("Your command are : \n"),
-    YOURARE("You are "),
-    EXITS("Exits : \n"),
-    LISTOBJECT("In this room, there is : "),
-    NOKEY("You don't have the key to open this door"),
-    NOKEY1("You don't have the first key"),
-    NOKEY2("You don't have the second key"),
-    ERRROR("ERROR!!!"),
-    ROOMOPEN("The door is already open");
+    GOWHERE(Game.messages.getString("gowhere")),
+    UNLOCKWHAT(Game.messages.getString("unlockwhat")),
+    GOODBYE(Game.messages.getString("goodbye")),
+    WELCOME(Game.messages.getString("welcome")+CommandWord.HELP.toString()),
+    IDK(Game.messages.getString("idk")),
+    HELP(Game.messages.getString("helpT")),
+    NODOOR(Game.messages.getString("nodoor")),
+    QUITWHAT(Game.messages.getString("quitwhat")),
+    YOURCOMMAND(Game.messages.getString("yourcommand")),
+    YOUARE(Game.messages.getString("youare")),
+    EXITS(Game.messages.getString("exits")),
+    LISTOBJECT(Game.messages.getString("listobject")),
+    NOKEY(Game.messages.getString("nokey")),
+    NOKEYS(Game.messages.getString("nokeys")),
+    NOKEY1(Game.messages.getString("nokey1")),
+    NOKEY2(Game.messages.getString("nokey2")),
+    ERRROR(Game.messages.getString("error")),
+    ROOMOPEN(Game.messages.getString("roomopen")),
+    UNLOCKDOOR(Game.messages.getString("unlockdoor")),
+    UNLOCK1(Game.messages.getString("unlock1")),
+    UNLOCK2(Game.messages.getString("unlock2")),
+    CODENUMBER(Game.messages.getString("codenumber")),
+    NOTHINGTAKE(Game.messages.getString("nothingtake")),
+    NOTHING(Game.messages.getString("nothing")),
+    CODE(Game.messages.getString("codeT")),
+    KEY(Game.messages.getString("keyT")),
+    YOUTAKE(Game.messages.getString("youtake"));
+
 
     private String mot ="";
 

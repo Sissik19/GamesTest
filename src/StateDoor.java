@@ -1,9 +1,9 @@
 public enum StateDoor {
-    CLOSE("need one key"),
-    OPEN("open"),
-    DCLOSE("need two key"),
-    HIDE("hide"),
-    CODE("code");
+    CLOSE(Game.messages.getString("close")),
+    OPEN(Game.messages.getString("open")),
+    DCLOSE(Game.messages.getString("dclose")),
+    HIDE(Game.messages.getString("hide")),
+    CODE(Game.messages.getString("code"));
 
     private String mot ="";
 
